@@ -11,8 +11,6 @@ This repository contains a sample Selenium TestNG project for practice purpose
 - [Running Tests](#running-tests)
 - [Configuration](#configuration)
 - [Reporting](#reporting)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 
@@ -25,7 +23,7 @@ LQE is an example test automation suite. It is designed for maintainability, sca
 - Page Object Model (POM) for maintainable code
 - Cross-browser support (Chrome, Firefox, etc.)
 - Easy configuration and extensibility
-- Rich reporting and logging
+- Rich reporting and logging with Allure Reports
 
 ## Project Structure
 
