@@ -1,6 +1,5 @@
 package org.sgjl;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -12,64 +11,111 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-public class BrowserSetUp extends BasePage{
+import static common.Constants.*;
 
-    public static WebDriver driver=null;
-    public static String browser=null;
-    public static String environment=null;
+public class BrowserSetUp extends BasePage {
+
+    public static WebDriver driver = null;
+    public static String browser = null;
+    public static String environment = null;
 
 
     // Set up the browser method to initialize the driver
-    public static WebDriver setBrowser(String brw,String env,String headless) throws Exception{
+    public static WebDriver setBrowser() throws Exception {
 
-        browser=brw;
-        environment=env;
+        // Fetch browser
+        String brw = System.getProperty("brw");
+        if (brw == null) {
+            brw = getGlobalProperties("app.browser");
+        }
 
-        switch(browser){
+        // Fetch environment
+        String env = System.getProperty("env");
+        if (env == null) {
+            env = getGlobalProperties("app.env");
+        }
+
+        // Fetch headless
+        String headless = System.getProperty("headless");
+        if (headless == null) {
+            headless = getGlobalProperties("app.headless");
+        }
+
+        browser = brw;
+        environment = env;
+
+        switch (browser) {
             case "chrome":
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions opt=new ChromeOptions();
+                ChromeOptions opt = new ChromeOptions();
                 opt.setCapability("acceptInsecureCerts", true);
                 opt.addArguments("--start-maximized");
 
-                if(headless.equalsIgnoreCase("true")){
+                if (headless.equalsIgnoreCase("true")) {
                     opt.addArguments("--headless");
                     opt.addArguments("window-size=1920,1080");
                 }
 
-                driver=new ChromeDriver(opt);
+                driver = new ChromeDriver(opt);
                 break;
             case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                FirefoxOptions ffopt=new FirefoxOptions();
+                FirefoxOptions ffopt = new FirefoxOptions();
                 ffopt.setCapability("acceptInsecureCerts", true);
                 ffopt.addArguments("--start-maximized");
 
-                if(headless.equalsIgnoreCase("true")){
+                if (headless.equalsIgnoreCase("true")) {
                     ffopt.addArguments("--headless");
                     ffopt.addArguments("window-size=1920,1080");
                 }
 
-                driver=new FirefoxDriver(ffopt);
+                driver = new FirefoxDriver(ffopt);
                 break;
             case "edge":
-                WebDriverManager.edgedriver().setup();
-                EdgeOptions edgopt=new EdgeOptions();
+                EdgeOptions edgopt = new EdgeOptions();
                 edgopt.setCapability("acceptInsecureCerts", true);
                 edgopt.addArguments("--start-maximized");
 
-                if(headless.equalsIgnoreCase("true")){
+                if (headless.equalsIgnoreCase("true")) {
                     edgopt.addArguments("--headless");
                     edgopt.addArguments("window-size=1920,1080");
                 }
 
-                driver=new EdgeDriver(edgopt);
+                driver = new EdgeDriver(edgopt);
                 break;
             default:
                 throw new Exception("Browser not supported: " + browser);
         }
 
         return driver;
+    }
+
+    public static String getBaseURL() {
+        String env=environment;
+
+        if(env==null){
+            env=getGlobalProperties("app.env");
+        }
+        environment=env;
+
+        switch(env.toUpperCase()) {
+
+            case "PROD":
+                return BASE_URL;
+            case "QA":
+                return QA_BASE_URL;
+            case "PRE_PROD":
+                return PPROD_BASE_URL;
+            default:
+                return QA_BASE_URL;
+        }
+}
+
+    public static void navigateToHomePage() throws Exception {
+        setBrowser();
+        String BaseURL = getBaseURL();
+        if (BaseURL == null || BaseURL.isEmpty()) {
+            throw new IllegalArgumentException("Base URL is not defined in global properties.");
+        }
+        driver.get(BaseURL);
     }
 
     //Access Global properties
@@ -87,7 +133,6 @@ public class BrowserSetUp extends BasePage{
         }
         return value;
     }
-
 
     // Tear down method to quit the driver
     public static void tearDown(){

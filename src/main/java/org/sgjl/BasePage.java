@@ -1,5 +1,7 @@
 package org.sgjl;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -33,8 +35,7 @@ public class BasePage {
 
     }
 
-    public static void browser() throws Exception{
-        driver=BrowserSetUp.setBrowser(seleBrowser,seleEnv,seleHeadless);
+    public byte[] takeScreenshot() {
+        return ((TakesScreenshot) BrowserSetUp.driver).getScreenshotAs(OutputType.BYTES);
     }
-
 }

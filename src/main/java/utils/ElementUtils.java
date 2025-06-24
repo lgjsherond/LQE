@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -38,6 +39,16 @@ public class ElementUtils {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void selectByVisibleText(WebElement dropdown, String text) {
+        wait.until(ExpectedConditions.elementToBeClickable(dropdown));
+        Select select = new Select(dropdown);
+        select.selectByVisibleText(text);
+    }
+
+    public void waitUntilClickable(WebElement element){
+        wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
 }
