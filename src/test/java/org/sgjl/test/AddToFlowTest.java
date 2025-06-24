@@ -1,16 +1,15 @@
 package org.sgjl.test;
 
 import io.qameta.allure.*;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.sgjl.BasePage;
-import org.sgjl.BrowserSetUp;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.CartPage;
 import pages.HomePage;
 import pages.ProductDetailsPage;
 import pages.SearchResultsPage;
+import utils.ConfigManager;
+import utils.LoggerUtil;
 
 @Epic("FAO Schwarz E-commerce Testing")
 @Feature("Product Search and Cart Functionality")
@@ -21,32 +20,13 @@ public class AddToFlowTest extends BasePage {
     private ProductDetailsPage productDetailsPage;
     private CartPage cartPage;
 
-    @Test(priority = 1, description = "Complete user journey from homepage to cart")
-    @Story("User can search for products and add them to cart")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("E2E Workflow Goto site -> Search -> Sort -> Add to Cart -> Validate")
-    public void testCompleteUserJourney() throws Exception {
-
-        navigateToHomePage();
-        performSearchAction();
-        searchForProducts("toys");
-        sortProductsByPrice();
-        openProductDetails();
-        updateProductQuantity(3);
-        addProductToCart();
-        validateCartInformation();
-    }
-
     @Step("Step 1: Navigate to FAO Schwarz homepage")
     private void navigateToHomePage() throws Exception{
-        BrowserSetUp.navigateToHomePage();
-        homePage = new HomePage(BrowserSetUp.driver);
-
-        Assert.assertTrue(homePage.isHomePageLoaded(),
-                "Home page should load properly");
-
+        navigateToUrl(ConfigManager.getBaseUrl());
+        homePage = new HomePage(getDriver());
+        Assert.assertTrue(homePage.isHomePageLoaded(),"Home page should load properly");
         takeScreenshot();
-        System.out.println("✓ Homepage loaded successfully");
+        LoggerUtil.info("Homepage loaded successfully");
     }
 
     @Step("Step 2: Click on search button")
@@ -54,15 +34,16 @@ public class AddToFlowTest extends BasePage {
         searchPage = homePage.clickSearchButton();
         Assert.assertNotNull(searchPage,"Search layout should load");
         takeScreenshot();
+        LoggerUtil.info("Search Action successfully");
     }
 
     @Step("Step 3: Search for products with term: {searchTerm}")
     private void searchForProducts(String searchTerm) {
         searchPage = homePage.performSearch(searchTerm);
-
         Assert.assertTrue(searchPage.areSearchResultsDisplayed(), "Search results should appear on the page");
         Assert.assertTrue(searchPage.getProductCount() > 0, "At least one product should be found");
         takeScreenshot();
+        LoggerUtil.info("Search with term '" + searchTerm + "' completed successfully");
     }
 
     @Step("Step 4: Sort products by price (low to high)")
@@ -137,12 +118,28 @@ public class AddToFlowTest extends BasePage {
         Assert.assertNotNull(subtotal,"Subtotal should be displayed");
     }
 
+    @Test(priority = 1, description = "Complete user journey from homepage to cart")
+    @Story("User can search for products and add them to cart")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("E2E Workflow Goto site -> Search -> Sort -> Add to Cart -> Validate")
+    public void testCompleteUserJourney() throws Exception{
+
+        navigateToHomePage();
+        performSearchAction();
+        searchForProducts("toys");
+        sortProductsByPrice();
+        openProductDetails();
+        updateProductQuantity(3);
+        addProductToCart();
+        validateCartInformation();
+    }
+
     @Test(priority = 2, description = "Test search with no results")
     @Story("Handle empty search results gracefully")
     @Severity(SeverityLevel.NORMAL)
     public void testEmptySearchResults() throws Exception{
-        BrowserSetUp.navigateToHomePage();
-        homePage = new HomePage(driver);
+        navigateToHomePage();
+        homePage = new HomePage(getDriver());
 
         searchPage = homePage.performSearch("mynameissheron");
         Assert.assertNotNull(searchPage, "Search should handle no results gracefully");
@@ -153,8 +150,8 @@ public class AddToFlowTest extends BasePage {
     @Story("Basic cart operations work correctly")
     @Severity(SeverityLevel.NORMAL)
     public void testBasicCartFunctionality() throws Exception{
-        BrowserSetUp.navigateToHomePage();
-        homePage = new HomePage(driver);
+        navigateToHomePage();
+        homePage = new HomePage(getDriver());
         searchPage = homePage.performSearch("toys");
 
         if (searchPage.areSearchResultsDisplayed()) {

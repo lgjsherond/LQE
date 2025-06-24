@@ -6,10 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.sgjl.BrowserSetUp;
 import utils.ElementUtils;
+import utils.LoggerUtil;
 
 import java.time.Duration;
 
@@ -47,11 +45,10 @@ public class HomePage {
         this.driver=driver;
         this.elementUtils=new ElementUtils(driver);
 
-        System.out.println("Driver initialized: " + driver.getClass().getSimpleName());
-        System.out.println("Current URL: " + driver.getCurrentUrl());
+        LoggerUtil.info("Driver initialized: " + driver.getClass().getSimpleName());
+        LoggerUtil.info("Current URL: " + driver.getCurrentUrl());
 
         PageFactory.initElements(driver,this);
-//        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(searchInput));
     }
 
     @Step("Verify the home page is loaded")
@@ -70,7 +67,8 @@ public class HomePage {
         elementUtils.waitUntilClickable(searchButton);
         try{
             elementUtils.waitAndClick(searchButton);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LoggerUtil.error("Search button not clickable"+e);
         }
         return new SearchResultsPage(driver);
     }
@@ -98,7 +96,8 @@ public class HomePage {
             if (elementUtils.isElementDisplayed(closePopupButton)) {
                 elementUtils.waitAndClick(closePopupButton);
             }
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            LoggerUtil.warn("Close popup button not found or not clickable: " + e);
         }
     }
 }

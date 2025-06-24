@@ -1,53 +1,51 @@
 # LQE: Selenium Java TestNG Automation Project
 
-This repository contains a sample Selenium TestNG project for practice purpose
+This project provides automated end-to-end tests for the FAO Schwarz e-commerce platform. It uses Java, Maven, TestNG, and Allure for comprehensive UI testing and reporting.
 
 ## Table of Contents
 
-- [Overview](#overview)
 - [Features](#features)
+- [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
-- [Setup](#setup)
+- Getting Started
+  - [Clone the repository](#clone-the-repository)
+  - [Install Dependencies](#install-dependencies)
 - [Running Tests](#running-tests)
 - [Configuration](#configuration)
 - [Reporting](#reporting)
 
-## Overview
-
-LQE is an example test automation suite. It is designed for maintainability, scalability, and ease of use in automating the testing of web applications.
-
 ## Features
 
-- Selenium WebDriver-based browser automation
-- Test orchestration and assertions with TestNG
-- Page Object Model (POM) for maintainable code
-- Cross-browser support (Chrome, Firefox, etc.)
-- Easy configuration and extensibility
-- Rich reporting and logging with Allure Reports
+- Product search and sorting tests
+- Cart functionality validation
+- Edge case handling (e.g., empty search results)
+- Allure reporting integration
+- Centralized logging with SLF4J
+- Page Object Model for maintainable test code
+
+## Tech Stack
+
+- Java 11+
+- Maven
+- TestNG
+- Allure
+- SLF4J
 
 ## Project Structure
 
-```
-project-root/
-│
-├── src/
-│   ├── main/java/        # Framework and support code
-│   └── test/java/        # Test cases, page objects, utilities
-│
-├── testng.xml            # TestNG suite configuration
-├── pom.xml               # Maven project and dependency management
-└── README.md             # Project documentation
-```
+- `src/main/java/pages/` - Page Object classes
+- `src/main/java/utils/` - Utility classes (config, logging)
+- `src/test/java/org/sgjl/test/` - Test classes
+- `src/test/java/org/sgjl/test/listeners/` - TestNG listeners (e.g., for Allure screenshots)
 
-## Setup
+## Getting Started
 
-### Prerequisites
+1. **Clone the repository:**
+   ```sh
+   git clone https://github.com/lgjsherond/LQE.git
+   cd LQE
 
-- Java JDK 1 or above
-- Maven 3.x
-- Git
-
-### Install Dependencies
+2. **Install Dependencies**
 
 ```bash
 mvn clean install
@@ -73,9 +71,13 @@ mvn test -DsuiteXmlFile=testng.xml
 ## Configuration
 
 - Edit `testng.xml` to define test groups, parallel execution, and parameters.
-- Browser and environment configuration can be set in a `config.properties` or similar file.
+- Browser and environment configuration can be set in a `global.properties` or similar file.
 
 ## Reporting
-
 - TestNG generates reports in `target/surefire-reports` by default.
-- For advanced reporting, integrate with tools like Allure or Extent Reports.
+- For advanced reporting check Allure Reports.
+
+View Allure report:
+```bash
+mvn allure:serve
+```

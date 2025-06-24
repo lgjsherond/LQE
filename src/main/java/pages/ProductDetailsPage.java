@@ -5,11 +5,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import utils.ElementUtils;
-
-import java.time.Duration;
+import utils.LoggerUtil;
 
 public class ProductDetailsPage {
 
@@ -41,8 +38,7 @@ public class ProductDetailsPage {
         this.driver = driver;
         this.elementUtils = new ElementUtils(driver);
         PageFactory.initElements(driver, this);
-//        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(quantityInput));
-    }
+  }
 
     @Step("Verify product details page is loaded")
     public boolean isProductDetailsPageLoaded() {
@@ -72,7 +68,7 @@ public class ProductDetailsPage {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                LoggerUtil.error("Interrupted while increasing quantity: " + e);
             }
         }
     }

@@ -5,17 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.sgjl.BrowserSetUp;
 import utils.ElementUtils;
+import utils.LoggerUtil;
 
-import java.time.Duration;
 import java.util.List;
 
 public class SearchResultsPage {
 
-    private WebDriver driver= BrowserSetUp.driver;
+    private WebDriver driver;
     private ElementUtils elementUtils;
 
     @FindBy(css = "a[area-label=\"Products tab\"]")
@@ -37,7 +34,6 @@ public class SearchResultsPage {
         this.driver=driver;
         this.elementUtils=new ElementUtils(driver);
         PageFactory.initElements(driver, this);
-//        new WebDriverWait(driver, Duration.ofSeconds(10)).until(ExpectedConditions.visibilityOf(searchResultsContainer));
     }
 
     @Step("Verify search results are displayed")
@@ -48,11 +44,11 @@ public class SearchResultsPage {
     @Step("Sort products by: {sortOption}")
     public void sortBy(String sortOption) {
         elementUtils.selectByVisibleText(sortDropdown, sortOption);
-        // Wait for results to reload after sorting
+
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            LoggerUtil.error("Error while waiting for sort to apply: " + e);
         }
     }
 
