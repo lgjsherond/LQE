@@ -23,7 +23,7 @@ public class BasePage {
     protected static ThreadLocal<WebDriverWait> wait=new ThreadLocal<>();
 
     private String PROP_HEADLESS=getProperty("app.headless");
-    private static final String PROP_BROWSER = "app.browser";
+    private static final String PROP_BROWSER = getProperty("app.browser");
 
     @BeforeMethod(alwaysRun = true)
     @Parameters({"seleBrowser"})
