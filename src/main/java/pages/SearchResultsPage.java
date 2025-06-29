@@ -18,16 +18,21 @@ public class SearchResultsPage {
     @FindBy(css = "a[area-label=\"Products tab\"]")
     private WebElement searchResultsContainer;
 
-    @FindBy(css = ".product-item, .product-card, [data-testid='product-item']")
+    @FindBy(css = ".klevuProductClick")
     private List<WebElement> productItems;
 
-    @FindBy(css = "div:contains(\"Sort by : Relevance\")")
+    @FindBy(css = ".kuDropdownLabel")
+    private WebElement sortDropdownLabel;
+
+    @FindBy(css = ".kuDropdownOptions")
     private WebElement sortDropdown;
+
+
 
     @FindBy(css = ".klevuImgWrap > a.klevuProductClick")
     private WebElement firstProduct;
 
-    @FindBy(css = ".no-results, .empty-results, [data-testid='no-results']")
+    @FindBy(css = "")
     private WebElement noResultsMessage;
 
     public SearchResultsPage(WebDriver driver) {
@@ -43,6 +48,8 @@ public class SearchResultsPage {
 
     @Step("Sort products by: {sortOption}")
     public void sortBy(String sortOption) {
+        elementUtils.waitAndClick(sortDropdownLabel);
+
         elementUtils.selectByVisibleText(sortDropdown, sortOption);
 
         try {
@@ -65,6 +72,6 @@ public class SearchResultsPage {
 
     @Step("Verify sort functionality")
     public boolean isSortDropdownDisplayed() {
-        return elementUtils.isElementDisplayed(sortDropdown);
+        return elementUtils.isElementDisplayed(sortDropdownLabel);
     }
 }

@@ -12,28 +12,28 @@ public class CartPage {
     private WebDriver driver;
     private ElementUtils elementUtils;
 
-    @FindBy(css = ".cart-popup, .cart-slider, .mini-cart, [data-testid='cart-popup']")
+    @FindBy(css = "")
     private WebElement cartPopup;
 
-    @FindBy(css = ".cart-item, .line-item, [data-testid='cart-item']")
+    @FindBy(css = "")
     private WebElement cartItem;
 
-    @FindBy(css = ".item-quantity, .quantity-display, [data-testid='cart-quantity']")
+    @FindBy(css = "")
     private WebElement itemQuantity;
 
-    @FindBy(css = ".item-price, .line-item-price, [data-testid='item-price']")
+    @FindBy(css = "")
     private WebElement itemPrice;
 
-    @FindBy(css = ".subtotal, .cart-subtotal, [data-testid='cart-subtotal']")
+    @FindBy(css = "")
     private WebElement subtotal;
 
-    @FindBy(css = ".product-name, .item-title, [data-testid='cart-product-name']")
+    @FindBy(css = "")
     private WebElement productName;
 
-    @FindBy(css = ".chat-icon, .live-chat, [data-testid='chat-icon']")
+    @FindBy(css = "")
     private WebElement chatIcon;
 
-    @FindBy(css = ".cart-close, .close-cart, [data-testid='close-cart']")
+    @FindBy(css = "")
     private WebElement closeCartButton;
 
     public CartPage(WebDriver driver){

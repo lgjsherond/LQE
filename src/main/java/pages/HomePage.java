@@ -53,6 +53,10 @@ public class HomePage {
 
     @Step("Verify the home page is loaded")
     public boolean isHomePageLoaded(){
+        if(elementUtils.isElementDisplayed(closePopupButton)) {
+            elementUtils.waitAndClick(closePopupButton);
+        }
+
         if(elementUtils.isElementDisplayed(acceptCookiesButton)) {
             elementUtils.waitAndClick(acceptCookiesButton);
         }

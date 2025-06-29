@@ -13,25 +13,25 @@ public class ProductDetailsPage {
     private WebDriver driver;
     private ElementUtils elementUtils;
 
-    @FindBy(css = ".product-title, h1, [data-testid='product-title']")
+    @FindBy(css = "")
     private WebElement productTitle;
 
-    @FindBy(css = ".product-price, .price, [data-testid='product-price']")
+    @FindBy(css = "")
     private WebElement productPrice;
 
-    @FindBy(css = ".quantity-input, input[name='quantity'], [data-testid='quantity']")
+    @FindBy(css = "")
     private WebElement quantityInput;
 
-    @FindBy(css = ".quantity-plus, .qty-increase, [data-testid='increase-qty']")
+    @FindBy(css = "")
     private WebElement increaseQuantityButton;
 
-    @FindBy(css = ".quantity-minus, .qty-decrease, [data-testid='decrease-qty']")
+    @FindBy(css = "")
     private WebElement decreaseQuantityButton;
 
-    @FindBy(css = ".add-to-cart, [data-testid='add-to-cart'], button[type='submit']")
+    @FindBy(css = "")
     private WebElement addToCartButton;
 
-    @FindBy(css = ".product-image, .main-image, [data-testid='product-image']")
+    @FindBy(css = "")
     private WebElement productImage;
 
     public ProductDetailsPage(WebDriver driver) {
